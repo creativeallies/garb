@@ -18,8 +18,6 @@ module Garb
   module Request
     class Data
       def initialize(session, base_url, parameters = {})
-        parameters.merge!('key' => Garb.api_key) unless Garb.api_key.nil?
-        
         @session = session
         @base_url = base_url
         @parameters = parameters
@@ -30,6 +28,7 @@ module Garb
       end
 
       def query_string
+      	parameters.merge!('key' => Garb::Session.api_key) unless Garb::Session.api_key.nil?
         parameter_list = parameters.map { |k,v| "#{k}=#{v}" }
         parameter_list.empty? ? '' : "?#{parameter_list.join('&')}"
       end

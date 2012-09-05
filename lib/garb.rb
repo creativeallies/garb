@@ -48,7 +48,7 @@ module Garb
   extend self
 
   class << self
-    attr_accessor :proxy_address, :proxy_port, :proxy_user, :proxy_password, :api_key
+    attr_accessor :proxy_address, :proxy_port, :proxy_user, :proxy_password
     attr_writer   :read_timeout
   end
 
