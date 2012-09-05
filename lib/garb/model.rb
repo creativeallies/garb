@@ -42,6 +42,7 @@ module Garb
         parse_sort(options).to_params,
         build_page_params(options)
       ]
+
       data = send_request_for_data(profile, build_params(param_set))
       ReportResponse.new(data, instance_klass).results
     end
@@ -51,18 +52,17 @@ module Garb
       options[:limit] = 10_000 # maximum allowed
       results = nil
       while ((rs = results(profile, options)) && !rs.empty?)
-        results \
-          ? results.concat(rs.to_a)
-          : results = rs
+        results  ? results.concat(rs.to_a) : results = rs
         options[:offset] = results.size + 1
-        
+
         break if limit and results.size >= limit
         break if results.size >= results.total_results
       end
       limit ? results[0...limit] : results
     end
-    
-    private
+
+private
+
     def send_request_for_data(profile, params)
       request = Request::Data.new(profile.session, URL, params)
       response = request.send_request
